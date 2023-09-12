@@ -1,0 +1,9 @@
+/.metadata/
+message/.classpath
+message/.project
+message/HELP.md
+message/mvnw
+message/mvnw.cmd
+message/.mvn/
+message/.settings/
+message/target/
