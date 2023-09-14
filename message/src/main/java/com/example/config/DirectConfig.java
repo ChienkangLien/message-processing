@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitConfigDirect {
+public class DirectConfig {
 	
 	// 簡單模式，不配交換機
 	@Bean

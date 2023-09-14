@@ -2,3 +2,7 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672   # 默認的port號
+#    confirm開啟
+    publisher-confirm-type: correlated
+#    retrun開啟
+    publisher-returns: true

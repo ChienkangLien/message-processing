@@ -1,12 +1,12 @@
-package com.example.service.impl.direct;
+package com.example.service.impl.amqp.direct;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.service.MessageService;
-@Service
-public class MessageServiceRabbitmqImpl implements MessageService {
+//@Service
+public class MessageServiceAmqpImpl implements MessageService {
 	
 	@Autowired
 	private AmqpTemplate amqpTemplate;
@@ -19,7 +19,7 @@ public class MessageServiceRabbitmqImpl implements MessageService {
 		
 		amqpTemplate.convertAndSend("directExchange", "direct", id);
 		
-		// 路由模式，會對到同一對列
+		// 路由模式，會對到同一隊列
 		amqpTemplate.convertAndSend("directExchange", "direct2", id);
 		amqpTemplate.convertAndSend("directExchange", "direct2_1", id);
 	}

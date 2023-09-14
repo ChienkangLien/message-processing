@@ -1,4 +1,4 @@
-package com.example.service.impl.fanout;
+package com.example.service.impl.amqp.topic;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,15 +6,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.service.MessageService;
 //@Service
-public class MessageServiceRabbitmqImpl implements MessageService {
+public class MessageServiceAmqpImpl implements MessageService {
 	
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 
 	@Override
 	public void sendMessage(String id) {
-		System.out.println("待發送消息的訂單已納入處理隊列(rabbitmq fanout)，id：" + id);
-		amqpTemplate.convertAndSend("fanoutExchange", "", id);
+		System.out.println("待發送消息的訂單已納入處理隊列(rabbitmq topic)，id：" + id);
+		
+		// routingKey可依需求自訂
+		amqpTemplate.convertAndSend("topicExchange", "topic.order.id", id);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 @Configuration
-public class RabbitConfigTopic {
+public class TopicConfig {
 	@Bean
 	public Queue topicQueue() {
 		return new Queue("topic_queue"); //建構子有多個參數可帶入，durable(持久化), exclusive(專用的), autoDelete(自動刪除)等
