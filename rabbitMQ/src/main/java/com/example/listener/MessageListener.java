@@ -31,7 +31,7 @@ public class MessageListener {
 //	}
 
 	// 手動簽收
-	@RabbitListener(queues = "direct_queue", containerFactory = "rabbitListenerContainerFactory")
+	@RabbitListener(queues = "direct_queue", containerFactory = "myRabbitListenerContainerFactory")
 	public void receiveDirect(Message message, Channel channel) throws Exception {
 		try {
 			// 接收消息
@@ -40,10 +40,10 @@ public class MessageListener {
 			// 處理業務邏輯
 			// ...
 //			int i = 1 / 0;
-			// 手動確認消息
+			// 手動確認消息，當然也可以拒絕消息(透過basicAck或basicReject)
 			channel.basicAck(message.getMessageProperties().getDeliveryTag(), true);
 		} catch (Exception e) {
-			// 第三個參數 讓消息重回隊列
+			// 第三個參數 可選擇是否讓消息重回隊列
 			// 發生錯誤時也可以選擇不確認消息，做額外處理
 			channel.basicNack(message.getMessageProperties().getDeliveryTag(), true, true);
 		}
@@ -52,6 +52,14 @@ public class MessageListener {
 	@RabbitListener(queues = "direct_queue2")
 	public void receiveDirect2(String id) {
 		System.out.println("已完成消息發送業務(rabbitmq direct) queue2，id：" + id);
+	}
+	
+	// rabbitMQ中並未提供延遲隊列功能
+	// 替代方案是使用TTL(過期)+死信隊列 組合實現延遲功能
+	// 這個監聽器就可以收到延遲發送的消息做業務處理
+	@RabbitListener(queues = "dead_direct_queue")
+	public void receiveDeadDirect(String id) {
+		System.out.println("已完成消息發送業務(rabbitmq dead direct) dead queue，id：" + id);
 	}
 
 	@RabbitListener(queues = "topic_queue")

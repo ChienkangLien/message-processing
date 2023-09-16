@@ -8,6 +8,8 @@ import com.example.service.MessageService;
 //@Service
 public class MessageServiceAmqpImpl implements MessageService {
 	
+	// AmqpTemplate算是規範、RabbitTemplate而是進一步實現
+	// 此概念好比JPA與Hibernate
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 

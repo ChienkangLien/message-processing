@@ -45,11 +45,10 @@ public class RabbitConfig {
 		return rabbitTemplate;
 	}
 	
-	@Bean(name = "rabbitListenerContainerFactory")
+	@Bean(name = "myRabbitListenerContainerFactory")
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory2(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-
         // 開啟消費端手動處理
         factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         
