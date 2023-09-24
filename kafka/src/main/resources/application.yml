@@ -1,0 +1,14 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: mygroupId
+#      關閉offset自動提交
+      enable-auto-commit: false
+    producer:
+      properties:
+        interceptor:
+          classes: com.example.interceptor.CustomProducerInterceptor
+#    ack手動提交
+    listener:
+      ack-mode: manual
