@@ -18,4 +18,5 @@ public class OrderController {
 	public void order(@PathVariable String id) {
 		orderService.order(id);
 	}
+	
 }

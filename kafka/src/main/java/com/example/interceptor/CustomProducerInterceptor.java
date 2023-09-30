@@ -22,11 +22,12 @@ public class CustomProducerInterceptor implements ProducerInterceptor<String, St
 
 	@Override
 	public void configure(Map<String, ?> configs) {
-		// 配置攔截器時執行的操作
+		// 配置攔截器時執行的操作(如果有的話)
 	}
 
 	@Override
 	public ProducerRecord<String, String> onSend(ProducerRecord<String, String> record) {
+		// 消息發送前的攔截處理
 		String modifiedValue = "prefix-" + record.value();
 		return new ProducerRecord<>(record.topic(), record.partition(), record.timestamp(), record.key(), modifiedValue,
 				record.headers());
@@ -34,6 +35,7 @@ public class CustomProducerInterceptor implements ProducerInterceptor<String, St
 
 	@Override
 	public void onAcknowledgement(RecordMetadata metadata, Exception exception) {
+		// 當發送到服務器的記錄已被確認時，或者當發送記錄在發送到服務器之前失敗時的攔截處理
 		if (exception == null) {
 			sendSucuccess++;
 		} else {
@@ -43,6 +45,7 @@ public class CustomProducerInterceptor implements ProducerInterceptor<String, St
 
 	@Override
 	public void close() {
+		// 關閉資源或執行清理操作
 		double successRatio = (double) sendSucuccess / (sendFailure + sendSucuccess);
 		System.out.println("[INFO] 發送成功率 = " + String.format("%f", successRatio * 100) + "%");
 	}

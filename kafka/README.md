@@ -41,3 +41,6 @@ kafka-console-producer.bat --broker-list localhost:9092 --topic mytopic
 消費者功能測試
 kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic --from-beginning
 --bootstrap-server 指定連接kafka集群的地址
+
+
+集群創建可參考 https://reurl.cc/kalpGG

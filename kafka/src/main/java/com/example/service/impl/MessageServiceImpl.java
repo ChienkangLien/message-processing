@@ -1,6 +1,5 @@
 package com.example.service.impl;
 
-import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.service.MessageService;
 
@@ -21,6 +21,7 @@ public class MessageServiceImpl implements MessageService {
 	private KafkaTemplate<String, String> kafkaTemplate;
 
 	@Override
+	@Transactional // 開啟事務(.yml也須配置)
 	public void sendMessage(String id) {
 		System.out.println("待發送消息的訂單已納入處理隊列(kafka)，id：" + id);
 
@@ -29,7 +30,10 @@ public class MessageServiceImpl implements MessageService {
 		// 默認是異步的，而可以使用CompletableFuture<SendResult<K, V>>來獲取返回值，
 		// 並在需要時調用get()方法等待結果。這將使發送變為同步操作，但請注意，
 		// 如果發送失敗或發生錯誤，get()方法可能會阻塞，直到發送完成或超時。
-		CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("mytopic", id);
+		CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("mytopic2", id);
+		
+		// 指定timestamp(CustomConsumerInterceptor測試用)
+//		CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("mytopic2", null, System.currentTimeMillis()-10 * 1000, "key", id);
 		try {
 			System.out.println(future.get());
 		} catch (InterruptedException e) {

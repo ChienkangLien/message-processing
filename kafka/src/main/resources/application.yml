@@ -5,7 +5,12 @@ spring:
       group-id: mygroupId
 #      關閉offset自動提交
       enable-auto-commit: false
+      properties:
+        interceptor:
+          classes: com.example.interceptor.CustomConsumerInterceptor
     producer:
+#    註冊事務功能
+      transaction-id-prefix: tx-
       properties:
         interceptor:
           classes: com.example.interceptor.CustomProducerInterceptor
