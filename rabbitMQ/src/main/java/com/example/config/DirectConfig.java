@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class DirectConfig {
 
 	// 簡單模式，不配交換機
+	// 如果沒有名稱叫helloWorld的隊列、會自動創建
 	@Bean
 	public Queue helloWorldQueue() {
 		return new Queue("helloWorld"); // 建構子有多個參數可帶入，durable(持久化), exclusive(專用的), autoDelete(自動刪除)等
@@ -37,8 +38,8 @@ public class DirectConfig {
 	/***
 	 * @param queue的名稱
 	 * @param 是否持久化
-	 * @param 是否獨家的
-	 * @param 是否自動刪除
+	 * @param 是否獨家的(只有一個消費者監聽這個隊列，當Connection關閉時刪除該隊列)
+	 * @param 是否自動刪除(當沒有消費者時刪除隊列)
 	 * @param 更多訊息
 	 */
 	@Bean

@@ -1,12 +1,8 @@
 package com.example.listener;
 
-import java.io.IOException;
-
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.objenesis.instantiator.basic.NewInstanceInstantiator;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.context.Theme;
 
 import com.rabbitmq.client.Channel;
 

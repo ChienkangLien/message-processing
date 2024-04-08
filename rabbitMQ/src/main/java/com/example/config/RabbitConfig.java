@@ -20,6 +20,7 @@ public class RabbitConfig {
 	public RabbitTemplate rabbitTemplate() {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 
+		// yml開啟publisher-confirm-type: correlated
 		// 交換機接收消息，會做通知
 		// correlationData 相關配置訊息
 		// ack 交換機是否收到消息
@@ -32,7 +33,13 @@ public class RabbitConfig {
 			}
 		});
 
+		// yml開啟publisher-returns: true
 		// 消息從交換機到隊列之間失敗的話會執行
+		// message 消息
+		// replyCode 錯誤碼
+		// replyText 錯誤訊息
+		// exchange 交換機
+		// routingKey 路由鍵
 		rabbitTemplate.setMandatory(true);
 		rabbitTemplate.setReturnsCallback(new ReturnsCallback() {
 			@Override
