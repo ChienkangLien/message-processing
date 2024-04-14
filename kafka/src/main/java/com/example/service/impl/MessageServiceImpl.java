@@ -31,7 +31,7 @@ public class MessageServiceImpl implements MessageService {
 		// 並在需要時調用get()方法等待結果。這將使發送變為同步操作，但請注意，
 		// 如果發送失敗或發生錯誤，get()方法可能會阻塞，直到發送完成或超時。
 		CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("mytopic2", id);
-		
+
 		// 指定timestamp(CustomConsumerInterceptor測試用)
 //		CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("mytopic2", null, System.currentTimeMillis()-10 * 1000, "key", id);
 		try {
@@ -41,6 +41,14 @@ public class MessageServiceImpl implements MessageService {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
+
+		// 若非要獲取結果並保持異步操作，則採以下方式
+		future.thenAccept(result -> {
+			System.out.println("Message sent successfully: " + result);
+		}).exceptionally(ex -> {
+			System.err.println("Failed to send message: " + ex.getMessage());
+			return null;
+		});
 	}
 
 	@Override
